@@ -116,7 +116,17 @@ export default function LoginPage() {
             Continue →
           </button>
         </form>
-
+        <div className="w-3/4 flex justify-center mt-4">
+  <button
+    type="button"
+    onClick={() => navigate("/signup")}
+  >
+    <span className="text-black">New User? </span>
+    <span className="text-[#FF9900] font-semibold">
+      Create Account
+    </span>
+  </button>
+</div>
         <p className="mt-6 text-xs text-amazon-gray w-3/4 leading-relaxed">
           By continuing, you agree to Amazon's{' '}
           <span className="text-amazon-orange cursor-pointer hover:underline">Conditions of Use</span>
@@ -124,12 +134,7 @@ export default function LoginPage() {
           <span className="text-amazon-orange cursor-pointer hover:underline">Privacy Notice</span>.
         </p>
 
-        <button
-          onClick={() => navigate('/')}
-          className="mt-4 text-amazon-gray text-sm hover:text-amazon-orange transition-colors"
-        >
-          ← Back to role selection
-        </button>
+        
       </div>
 
     </div>

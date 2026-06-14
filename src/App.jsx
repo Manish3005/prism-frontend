@@ -12,13 +12,15 @@ import PreventionAlert from './pages/PreventionAlert';
 import RenewedDetail from './pages/RenewedDetail';
 import AmazonAdminDashboard from "./pages/AmazonAdminDashboard";
 import CameraInspection from "./pages/CameraInspection";
+import SignupPage from "./pages/SignupPage";
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const { pathname } = useLocation();
   const isAuthPage =
-  pathname === '/' ||
-  pathname === '/login';
+  pathname === "/" ||
+  pathname === "/login" ||
+  pathname === "/signup";
 
   const hideHeader =
   pathname === '/supplier' ||
@@ -35,6 +37,7 @@ export default function App() {
     )}
       <main className="flex-1">
         <Routes>
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<HomePage searchQuery={searchQuery} />} />
