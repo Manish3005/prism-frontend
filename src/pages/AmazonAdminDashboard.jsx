@@ -1,169 +1,117 @@
-import { useMemo, useState } from "react";
-import { Eye } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ItemsTab from "../components/vendor/ItemsTab";
+import CameraInspection from "./CameraInspection";
 
 export default function AmazonAdminDashboard() {
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("items");
 
-  const [rows] = useState([
+  const items = [
     {
-      returnId: "RET-1001",
-      productName: "boAt Airdopes 141",
-      value: 1499,
-      status: "Pending Inspection",
+      id: "1",
+      product_name: "Wireless Earbuds",
+      condition_grade: "Open_Box",
+      resale_price: 1799,
     },
     {
-      returnId: "RET-1002",
-      productName: "Noise ColorFit Watch",
-      value: 2499,
-      status: "Pending Inspection",
+      id: "2",
+      product_name: "Wireless Mouse",
+      condition_grade: "Refurbished",
+      resale_price: 549,
     },
     {
-      returnId: "RET-1003",
-      productName: "Logitech M331 Mouse",
-      value: 899,
-      status: "Pending Inspection",
+      id: "3",
+      product_name: "USB-C Cable",
+      condition_grade: "New",
+      resale_price: 299,
     },
-  ]);
-
-  const [selected, setSelected] = useState([]);
-
-  const allSelected =
-    rows.length > 0 && selected.length === rows.length;
-
-  const toggleAll = () => {
-    if (allSelected) {
-      setSelected([]);
-    } else {
-      setSelected(rows.map((r) => r.returnId));
-    }
-  };
-
-  const toggleRow = (id) => {
-    setSelected((prev) =>
-      prev.includes(id)
-        ? prev.filter((x) => x !== id)
-        : [...prev, id]
-    );
-  };
-
-  const selectedRows = useMemo(
-    () => rows.filter((r) => selected.includes(r.returnId)),
-    [rows, selected]
-  );
-
-  const openInspection = (row) => {
-    navigate("/camera-inspection", {
-      state: row,
-    });
-  };
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="bg-white rounded-lg shadow">
-        <div className="p-5 border-b">
-          <h1 className="text-2xl font-bold">
-            Amazon Internal Returns Portal
+    <div className="min-h-screen bg-gray-100">
+
+      {/* Header */}
+      <div className="bg-[#131A22] text-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 py-5">
+          <h1 className="text-3xl font-bold">
+            Amazon Admin Dashboard
           </h1>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-900 text-white">
-              <tr>
-                <th className="p-4">
-                  <input
-                    type="checkbox"
-                    checked={allSelected}
-                    onChange={toggleAll}
-                  />
-                </th>
-
-                <th className="text-left p-4">
-                  Return Request ID
-                </th>
-
-                <th className="text-left p-4">
-                  Product Name
-                </th>
-
-                <th className="text-left p-4">
-                  Value (INR)
-                </th>
-
-                <th className="text-left p-4">
-                  Status
-                </th>
-
-                <th className="text-left p-4">
-                  Action
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {rows.map((row) => (
-                <tr
-                  key={row.returnId}
-                  className="border-b"
-                >
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      checked={selected.includes(
-                        row.returnId
-                      )}
-                      onChange={() =>
-                        toggleRow(row.returnId)
-                      }
-                    />
-                  </td>
-
-                  <td className="p-4">
-                    {row.returnId}
-                  </td>
-
-                  <td className="p-4">
-                    {row.productName}
-                  </td>
-
-                  <td className="p-4">
-                    ₹{row.value}
-                  </td>
-
-                  <td className="p-4">
-                    {row.status}
-                  </td>
-
-                  <td className="p-4">
-                    <button
-                      onClick={() =>
-                        openInspection(row)
-                      }
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
-                    >
-                      <Eye size={16} />
-                      Inspect Item
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <p className="text-gray-300 text-sm mt-1">
+            Manage inspected return items and AI-powered quality assessments
+          </p>
         </div>
       </div>
 
-      {selectedRows.length > 0 && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-xl flex gap-4">
-          <button className="bg-green-600 px-4 py-2 rounded">
-            Batch Approve Secondary Listing
+      {/* Navigation */}
+      <div className="bg-[#232F3E] shadow">
+        <div className="max-w-7xl mx-auto flex gap-8 px-6">
+
+          <button
+            onClick={() => setActiveTab("items")}
+            className={`py-4 font-medium transition-colors ${
+              activeTab === "items"
+                ? "text-[#FF9900] border-b-2 border-[#FF9900]"
+                : "text-white"
+            }`}
+          >
+            Items
           </button>
 
-          <button className="bg-orange-600 px-4 py-2 rounded">
-            Batch Route to Regional Liquidation
+          <button
+            onClick={() => setActiveTab("camera")}
+            className={`py-4 font-medium transition-colors ${
+              activeTab === "camera"
+                ? "text-[#FF9900] border-b-2 border-[#FF9900]"
+                : "text-white"
+            }`}
+          >
+            Camera Inspection
           </button>
+
         </div>
-      )}
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+
+        {activeTab === "items" && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+
+              <div className="bg-white rounded-lg shadow p-4">
+                <p className="text-gray-500 text-sm">Total Items</p>
+                <h2 className="text-2xl font-bold">24</h2>
+              </div>
+
+              <div className="bg-white rounded-lg shadow p-4">
+                <p className="text-gray-500 text-sm">Resale</p>
+                <h2 className="text-2xl font-bold text-green-600">8</h2>
+              </div>
+
+              <div className="bg-white rounded-lg shadow p-4">
+                <p className="text-gray-500 text-sm">Refurbish</p>
+                <h2 className="text-2xl font-bold text-blue-600">6</h2>
+              </div>
+
+              <div className="bg-white rounded-lg shadow p-4">
+                <p className="text-gray-500 text-sm">
+                  Recycle / Donate
+                </p>
+                <h2 className="text-2xl font-bold text-orange-600">
+                  10
+                </h2>
+              </div>
+
+            </div>
+
+            <ItemsTab items={items} />
+          </>
+        )}
+
+        {activeTab === "camera" && (
+          <CameraInspection />
+        )}
+
+      </div>
     </div>
   );
 }

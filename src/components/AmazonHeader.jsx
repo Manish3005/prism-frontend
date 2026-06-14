@@ -128,12 +128,7 @@ export default function AmazonHeader({ searchQuery, onSearchChange, onSearchSubm
   Marketplace
 </Link>
 
-<Link
-  to="/amazon-admin"
-  className="shrink-0 hover:outline hover:outline-1 hover:outline-white px-1 rounded-sm font-semibold text-amazon-orange"
->
-  Amazon Admin
-</Link>
+
 
 <Link
   to="/camera-inspection"
